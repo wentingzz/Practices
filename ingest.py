@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 """
 @author Renata Ann Zeitler
 @author Josh Good
