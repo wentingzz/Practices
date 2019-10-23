@@ -104,7 +104,7 @@ def main():
     else:
         categDirRoot = os.path.join(os.path.dirname(os.path.realpath(__file__)), "logjam_categories/")
 
-    es = Elasticsearch(['http://localhost:9200/'], verify_certs = True, http_compress=True)
+    es = Elasticsearch(['http://localhost:9200/'], verify_certs = True)
     if not es.ping():
         print("Unable to connect to Elasticsearch")
         sys.exit(1)
@@ -157,14 +157,14 @@ def searchAnInspectionDirectory(start, output_root, scratch_space, es, depth=Non
             filename, extension = os.path.splitext(fileOrDir)
             # Get the file's path in inspection dir
             inspecDirPath = os.path.join(start, depth, fileOrDir)
-            
+            category = getCategory(inspecDirPath.lower()) 
             # Check if this file has been previously ingested into our database
             logging.debug("Checking if duplicate: %s", inspecDirPath)
             cursor.execute("SELECT path FROM paths WHERE path=?", (inspecDirPath,))
             result = cursor.fetchone()
             if (result == None):
                 if os.path.isfile(inspecDirPath) and (extension in validExtensions or filename in validFiles) and is_storagegrid(inspecDirPath, ''):
-                    stash_file_in_elk(inspecDirPath, fileOrDir, caseNum, output_root, True, es)
+                    stash_file_in_elk(inspecDirPath, fileOrDir, caseNum, output_root, False, es)
 
 #                     random_files.append(inspecDirPath)
                 elif os.path.isdir(inspecDirPath):
@@ -246,7 +246,7 @@ def stash_node_in_elk(fullPath, caseNum, categDirRoot, is_owned, es):
         'platform':platform,
         'categorize_time': timestamp
     }
-    es.index(index='logjam', doc_type='doc', body = fields)
+    es.index(index='logjam', doc_type='_doc', body = fields, id=fullPath)
     
     
 #     helpers.bulk(es, actions)
@@ -269,8 +269,10 @@ def process_files_in_node(src, des, is_owned, file_list):
                 except (IOError) as e:
                     logging.critical("Unable to copy file: %s", e)
                     raise e
-            with open(fullFileOrDirPath) as fp:
-                file_list.append([line.strip() for line in fp])
+            with open(fullFileOrDirPath, 'rb') as fp:
+                data = fp.read()
+                data = data.decode('utf-8', errors='ignore')
+                file_list.append(data)
         elif os.path.isdir(fullFileOrDirPath):
             process_files_in_node(fullFileOrDirPath, des, is_owned, file_list)
     return file_list
@@ -339,7 +341,7 @@ def stash_file_in_elk(fullPath, filenameAndExtension, caseNum, categDirRoot, is_
         'platform':'unknown',
         'categorize_time': timestamp
     }
-    es.index(index='logjam', doc_type='doc', body = fields)
+    es.index(index='logjam', doc_type='_doc', body = fields, id=fullPath)
     
     try:
         os.rename(categDirPath, categDirPathWithTimestamp)
