@@ -13,3 +13,20 @@ class Solution(object):
                 left_s += sh[1]
         left_s = left_s % len(s)
         return s[left_s:] + s[:left_s]
+
+#Solution from Leetcode
+class Solution(object):
+    def stringRotation(self, s, rotation):
+        """
+        :type s: str
+        :type rotation: List[List[int]]
+        :rtype: str
+        """
+        ans=s
+        for d,a in rotation:
+            if d:
+                ans=ans[-a:]+ans[:-a]
+            else:
+                ans=ans[a:]+ans[:a]
+        return ans
+        
