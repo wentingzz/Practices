@@ -20,3 +20,25 @@ class Solution(object):
                     sumNums[curSum] = idx
                 # print(sumNums)
         return res
+# The following code is from LeetCode
+class Solution(object):
+    def findMaxLength(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        d = {}
+        d[0] = -1
+        count = 0
+        result = 0
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                count -= 1
+            else: 
+                count += 1
+            if count in d:
+                if (i - d[count]) > result:
+                    result = i - d[count]
+            else:
+                d[count] = i
+        return result
