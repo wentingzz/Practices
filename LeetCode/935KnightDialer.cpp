@@ -1,5 +1,6 @@
 class Solution {
 public:
+//similar to 931
     int knightDialer(int n) {
         // Adjacency list for knight moves from each digit 
         vector<vector<int>> moves = {
