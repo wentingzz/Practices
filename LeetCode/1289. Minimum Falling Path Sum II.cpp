@@ -1,3 +1,47 @@
+class BetterSpaceSolution {
+public:
+    int n;
+    
+    void fillMinAtRow(vector<int>& gridRow, vector<int>& minLeft, vector<int>& minRight) {
+        int cur = INT_MAX;
+        for (int c = 0; c < n; c++) {
+            minLeft[c] = cur;
+            cur = min(cur, gridRow[c]);
+        }
+
+        cur = INT_MAX;
+        for (int c = n - 1; c > -1; c--) {
+            minRight[c] = cur;
+            cur = min(cur, gridRow[c]);
+        }
+    }
+
+    int minFallingPathSum(vector<vector<int>>& grid) {
+        n = grid.size();
+        if (n == 1) return grid[0][0];  
+
+        vector<int> minLeft(n);
+        vector<int> minRight(n);
+        vector<int> dpPrev = grid[0]; // Store the previous row's dp values
+        vector<int> dpCur(n, INT_MAX); // Store the current row's dp values
+        fillMinAtRow(dpPrev, minLeft, minRight);
+
+        for (int r = 1; r < n; r++) {
+            for (int c = 0; c < n; c++) {
+                dpCur[c] = grid[r][c] + min(minLeft[c], minRight[c]);
+            }
+            dpPrev = dpCur; // Move current dp to previous dp for the next iteration
+            fillMinAtRow(dpCur, minLeft, minRight);
+        }
+
+        int res = dpCur[0];
+        for (int c = 1; c < n; c++) {
+            res = min(res, dpCur[c]);
+        }
+        return res;
+    }
+};
+
 class Solution {
 public:
     int n;
