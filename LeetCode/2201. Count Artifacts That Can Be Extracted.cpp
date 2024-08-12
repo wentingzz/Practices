@@ -1,3 +1,23 @@
+class BetterSolution {
+public:
+    int digArtifacts(int n, vector<vector<int>>& artifacts, vector<vector<int>>& dig) {
+        bool grid[n][n];
+        memset(grid, false, sizeof(grid));
+        for(vector<int>& d: dig) grid[d[0]][d[1]] = true;
+
+        int res = 0;
+        for(vector<int>& a: artifacts){
+            bool extract = true;
+            for(int r = a[0]; r <= a[2] && extract; r++){
+                for(int c = a[1]; c <= a[3] && extract; c++) extract &= grid[r][c];
+            }
+            res += extract;
+        }
+
+        return res;
+    }
+};
+
 class Solution {
 public:
     int digArtifacts(int n, vector<vector<int>>& artifacts, vector<vector<int>>& dig) {
