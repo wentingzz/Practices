@@ -25,3 +25,49 @@ public:
         return true;
     }
 };
+
+
+class CompleteSolution {
+public:
+    int findPrimeLessThan(vector<int> primes, int k){
+        int l = 0, h = primes.size()-1, res = 0;
+        int m;
+        while(l <= h){
+            m = l + (h-l)/2;
+            if(primes[m] < k){
+                res = primes[m];
+                l = m + 1;
+            }else{
+                h = m - 1;
+            }
+        }
+        return res;
+    }
+
+    vector<int> findPrimes(int h){
+        vector<bool> isPrime(h + 1, true);
+        for(int i = 2; i * i <= h; i++){
+            if(isPrime[i]){
+                for(int j = i*i; j <= h; j += i){
+                    isPrime[j] = false;
+                }
+            }
+        }
+
+        vector<int> res;
+        for(int i = 2; i <= h; i++){
+            if(isPrime[i]) res.push_back(i);
+        }
+        return res;
+    }
+    bool primeSubOperation(vector<int>& nums) {
+        vector<int> primes = findPrimes(1000);
+
+        int last = 0;
+        for(int& n: nums){
+            if(last >= n) return false;
+            last = n - findPrimeLessThan(primes, n - last);
+        }
+        return true;
+    }
+};
