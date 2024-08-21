@@ -19,3 +19,19 @@ public:
     }
 };
 
+
+class SpaceBetterSolution {
+public:
+    string decodeCiphertext(string encodedText, int rows) {
+        int cols = encodedText.size() / rows;
+        string res = "";
+        for(int i = 0; i < cols; i++){
+            for(int j = 0; j < rows && j + i < cols; j++){
+                res += encodedText[j*cols + j + i];
+            }
+        }
+
+        res.erase(res.find_last_not_of(' ') + 1);
+        return res;
+    }
+};
