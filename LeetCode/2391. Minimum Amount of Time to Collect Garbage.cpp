@@ -1,3 +1,24 @@
+class BetterSolution {
+public:
+    int garbageCollection(vector<string>& garbage, vector<int>& travel) {
+        int last[3] = {0, 0, 0}; //keep track of the last index in garbage
+        int res = 0, n = garbage.size();
+        for(int i = 0; i < n; i++){
+            if(garbage[i].find('M') != std::string::npos) last[0] = i;
+            if(garbage[i].find('P') != std::string::npos) last[1] = i;
+            if(garbage[i].find('G') != std::string::npos) last[2] = i;
+            
+            res += garbage[i].size();
+        }
+        
+        int maxIdx = max(last[0], max(last[1], last[2]));
+        travel.insert(travel.begin(), 0);
+        for(int i = 1; i <= maxIdx; i++) travel[i] += travel[i-1];
+        for(int i = 0; i < 3; i++) res += travel[last[i]];
+        return res;
+    }
+};
+
 class Solution {
 public:
     int garbageCollection(vector<string>& garbage, vector<int>& travel) {
