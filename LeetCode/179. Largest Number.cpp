@@ -14,3 +14,21 @@ public:
         return res;
     }
 };
+
+class SpaceEffectiveSolution {
+public:
+    static bool compare(int a, int b){
+        return to_string(a) + to_string(b) > to_string(b) + to_string(a);
+    }
+    string largestNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end(), compare);
+        if(nums[0] == 0){
+            return "0";
+        }
+        string res = "";
+        for(int& n: nums){
+            res += to_string(n);
+        }
+        return res;
+    }
+};
