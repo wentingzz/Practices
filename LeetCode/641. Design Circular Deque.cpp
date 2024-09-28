@@ -1,4 +1,4 @@
-struct Node{
+class Node{
     int val;
     Node *prev, *next;
     Node(int v): val(v){};
