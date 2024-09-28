@@ -1,3 +1,61 @@
+// Better storage and fair performance (16ms)
+class MyCircularDeque {
+public:
+    vector<int> q;
+    int cap = 0;
+    MyCircularDeque(int k) {
+        cap = k;
+    }
+    
+    bool insertFront(int value) {
+        if(cap <= 0) return false;
+        q.insert(q.begin(), value);
+        cap--;
+        return true;
+    }
+    
+    bool insertLast(int value) {
+        if(cap <= 0) return false;
+        q.push_back(value);
+        cap--;
+        return true;
+    }
+    
+    bool deleteFront() {
+        if(q.size() == 0) return false;
+        q.erase(q.begin());
+        cap++;
+        return true;
+    }
+    
+    bool deleteLast() {
+        if(q.size() == 0) return false;
+        q.pop_back();
+        cap++;
+        return true;
+    }
+    
+    int getFront() {
+        if(q.size() == 0) return -1;
+        return q[0];
+    }
+    
+    int getRear() {
+        if(q.size() == 0) return -1;
+        return q.back();
+    }
+    
+    bool isEmpty() {
+        return q.empty();
+    }
+    
+    bool isFull() {
+        return cap == 0;
+    }
+};
+
+
+// A slightly better performance (15ms)
 class Node{
     int val;
     Node *prev, *next;
