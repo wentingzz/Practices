@@ -1,4 +1,26 @@
-class Solution {
+class DFSBetterSolution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        vector<bool> seen(n, false);
+
+        dfs(rooms, seen, 0);
+
+        for(bool l: seen) if(!l) return false;
+        return true;
+    }
+
+    void dfs(vector<vector<int>>& rooms, vector<bool>& seen, int idx){
+        if(seen[idx]) return;
+        seen[idx] = true;
+
+        for(int& next: rooms[idx]){
+            dfs(rooms, seen, next);
+        }
+    }
+};
+
+class BFSSolution {
 public:
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
         int n = rooms.size();
