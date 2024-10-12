@@ -15,3 +15,24 @@ public:
         return res;
     }
 };
+
+
+class Solution {
+public:
+    int minGroups(vector<vector<int>>& intervals) {
+        vector<int> starts, ends;
+        for(auto& i: intervals){
+            starts.push_back(i[0]);
+            ends.push_back(i[1]);
+        }
+        sort(starts.begin(), starts.end());
+        sort(ends.begin(), ends.end());
+
+        int end_ptr = 0, cur = 0;
+        for(int& s: starts){
+            if(s > ends[end_ptr]) end_ptr++;
+            else cur++;
+        }
+        return cur;
+    }
+};
