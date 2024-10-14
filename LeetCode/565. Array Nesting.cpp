@@ -1,3 +1,26 @@
+class BetterSolution {
+public:
+    int arrayNesting(vector<int>& nums) {
+        int n = nums.size();
+        vector<bool> seen(n, false);
+        int res = 0;
+        for(int i = 0; i < n; i++){
+            if(!seen[i]){
+                int cur = 0, idx = i;
+                while(!seen[idx]){
+                    seen[idx] = true;
+                    idx = nums[idx];
+                    cur++;
+                }
+                res = max(res, cur);
+                if(res * 2 > n) return res;
+            }
+        }
+        return res;
+    }
+
+};
+
 class Solution {
 public:
     int arrayNesting(vector<int>& nums) {
