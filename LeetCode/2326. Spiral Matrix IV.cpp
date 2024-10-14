@@ -8,6 +8,40 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+class BetterSolution {
+public:
+    vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) {
+        ios::sync_with_stdio(false);
+        cin.tie(0);
+        cout.tie(0);
+        int lr = 0, hr = m-1, lc = 0, hc = n-1;
+        vector<vector<int>> res(m, vector<int>(n, -1));
+        while(head){
+            for(int i = lc; i <= hc && head; i++){
+                res[lr][i] = head->val;
+                head = head->next;
+            }
+            lr++;
+            for(int i = lr; head && i <= hr; i++){
+                res[i][hc] = head->val;
+                head = head->next;
+            }
+            hc--;
+            for(int i = hc; head && i >= lc; i--){
+                res[hr][i] = head->val;
+                head = head->next;
+            }
+            hr--;
+            for(int i = hr; head && i >= lr; i--){
+                res[i][lc] = head->val;
+                head = head->next;
+            }
+            lc++;
+            
+        }
+        return res;
+    }
+};
 class Solution {
 public:
     int limits[4] = {0, 0, 0, 0}; //lr, hr, lc, hc;
