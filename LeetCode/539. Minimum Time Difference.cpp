@@ -1,3 +1,29 @@
+class BetterSolution {
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        vector<bool> times(1440, false);
+        int start = 1440;
+        for(string& s: timePoints){
+            int idx = ((s[0]-'0') * 10 + s[1]-'0') * 60 + (s[3]-'0') * 10 + s[4] - '0';
+            if(times[idx]) return 0;
+            times[idx] = true;
+            start = min(idx, start);
+        }
+
+        int res = 1440, l = start;
+        for(int i = l + 1; i < 1440; i++){
+            if(times[i]){
+                int diff = i - l;
+                res = min(res, min(diff, 1440-diff));
+                l = i;
+            }
+        }
+        int diff = l - start;
+        if(l != start) return min(res, min(diff, 1440 - diff));
+        return res;
+    }
+};
+
 class Solution {
 public:
     int timeDiff(string& early, string& late){
