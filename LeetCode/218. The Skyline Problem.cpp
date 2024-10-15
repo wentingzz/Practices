@@ -26,3 +26,36 @@ public:
         return res;
     }
 };
+
+class HeapSolution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        vector<pair<int, int>> lines;
+        for(auto& b: buildings){
+            lines.push_back({b[0], -b[2]});
+            lines.push_back({b[1], b[2]});
+        }
+        sort(lines.begin(), lines.end());
+        priority_queue<int> added;
+        added.push(0);
+        priority_queue<int> toDelete;
+        vector<vector<int>> res;
+        for(auto p: lines){
+            if(p.second < 0){ //start of a new line
+                if(added.top() + p.second < 0){
+                    res.push_back({p.first, -p.second});
+                }
+                added.push(-p.second);
+            }else{//end of a line
+                if(added.top() == p.second){
+                    added.pop();
+                    while(!toDelete.empty() and added.top() == toDelete.top()) toDelete.pop(), added.pop();
+                    if(added.top() != p.second) res.push_back({p.first, added.top()});
+                }else{
+                    toDelete.push(p.second);
+                }
+            }
+        }
+        return res;
+    }
+};
