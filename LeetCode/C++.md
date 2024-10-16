@@ -14,13 +14,16 @@ This document contains various tips and best practices for optimizing your C++ c
 
 - **Code**:
      ```cpp
-     std::unordered_set<int> s = {1, 2, 3, 4, 5};
+     std::unordered_set<int> us = {1, 2, 3, 4, 5};
+     us.insert(6); // Adding element 6
      if (s.find(3) != s.end()) std::cout << "Element found!" << std::endl;
      
      std::set<int> s = {1, 2, 3, 4, 5};
+     s.insert(6); // Adding element 6
      if (s.find(3) != s.end())  std::cout << "Element found!" << std::endl;
      
      std::vector<int> v = {1, 2, 3, 4, 5}; // Must be sorted
+     v.push_back(6);
      if (std::binary_search(v.begin(), v.end(), 3))  std::cout << "Element found!" << std::endl;
 
      std::bitset<100> b;
@@ -28,7 +31,6 @@ This document contains various tips and best practices for optimizing your C++ c
      if (b[3]) std::cout << "Element found!" << std::endl;
      
      std::vector<int> v = {1, 2, 3, 4, 5};
-
      if (std::find(v.begin(), v.end(), 3) != v.end()) std::cout << "Element found!" << std::endl;
      ```
 
