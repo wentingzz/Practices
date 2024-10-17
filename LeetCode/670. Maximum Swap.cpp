@@ -1,3 +1,24 @@
+class BetterSolution {
+public:
+    int maximumSwap(int num) {
+        string str = to_string(num);
+        int n = str.size(), cur = n-1;
+        int best[2] = {n, n}; 
+
+        for(int i = n-2; i > -1; i--){
+            if(str[cur] > str[i]){
+                best[0] = i;
+                best[1] = cur;
+            }else if(str[cur] < str[i]){
+                cur = i;
+            }
+        }
+        if(best[0] == -1) return num;
+        swap(str[best[0]], str[best[1]]);
+        return stoi(str);
+    }
+};
+
 class Solution {
 public:
     int maximumSwap(int num) {
