@@ -1,4 +1,36 @@
 
+class QuickerSolution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) {
+        //sub folder's path must be longer than folder's path
+        sort(folder.begin(), folder.end(), [](const string& s1, const string& s2){
+            if(s1.size() == s2.size()) return s1 < s2;
+            return s1.size() < s2.size();
+        });
+        
+        unordered_set<string> seen;
+        vector<string> res;
+        for(string& f: folder){
+            if(isSubFolder(f, seen)) continue;
+            seen.insert(f);
+            res.push_back(f);
+        }
+        
+        return res;
+    }
+
+    bool isSubFolder(string& f, unordered_set<string>& seen){
+        string cur = "";
+        for(char&c: f){
+            if(c == '/'){
+                if(seen.find(cur) != seen.end()) return true;
+            }
+            cur += c;
+        }
+        return false;
+    }
+};
+
 class Solution {
 public:
     vector<string> removeSubfolders(vector<string>& folder) {
