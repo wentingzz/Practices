@@ -31,3 +31,18 @@ public:
         res.push_back(root->val);
     }
 };
+
+
+class SlowCostlySolution {
+public:
+    vector<int> res = {};
+    vector<int> postorder(Node* root) {
+        rec(root);
+        return res;
+    }
+    void rec(Node* root){
+        if(!root) return;
+        for(Node* n: root->children) postorder(n);
+        res.push_back(root->val);
+    }
+};
