@@ -1,3 +1,17 @@
+class BetterSolution {
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        long long res = 0;
+        
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        for(int i = 0; i < n; i++){
+            res += (upper_bound(nums.begin() + i + 1, nums.end(), upper - nums[i]) - lower_bound(nums.begin() + i + 1, nums.end(), lower - nums[i]));
+        }
+        return res;
+    }
+};
+
 class Solution {
 public:
     void insertInSortedVector(std::vector<int>& vec, int element) {
