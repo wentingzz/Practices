@@ -4,6 +4,7 @@ public:
         long long cnt = 0;
         for(int& t: times){
             cnt += time/t;
+            if(cnt >= totalTrips) return true;
         }
         return totalTrips <= cnt;
     }
