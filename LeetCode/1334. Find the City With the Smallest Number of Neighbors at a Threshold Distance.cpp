@@ -1,3 +1,39 @@
+class BetterSolution {
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        vector<vector<long long>> dist(n, vector<long long>(n, INT_MAX));
+        for(int i = 0; i < n; i++) dist[i][i] = 0;
+
+        for(auto& e: edges){
+            if(e[2] > distanceThreshold) continue;
+            dist[e[0]][e[1]] = e[2];
+            dist[e[1]][e[0]] = e[2];
+        }
+        
+        for(int k = 0; k < n; k++){
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++){
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
+            }
+        }
+
+        int cnt = 0, res = 0, minCnt = n;
+        for(int i = 0; i < n; i++){
+            cnt = 0;
+            for(int j = 0; j < n; j++){
+                if(dist[i][j] <= distanceThreshold) cnt++;
+            }
+            if(cnt <= minCnt){
+                minCnt = cnt;
+                res = i;
+            }
+        }
+
+        return res;
+    }
+};
+
 class Solution {
 public:
     void dfs(int node, unordered_map<int, vector<pair<int, int>>>& adj, vector<vector<long long>>& dist, int limit, long long total, int org){
