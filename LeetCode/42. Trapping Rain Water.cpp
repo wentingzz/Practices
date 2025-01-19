@@ -1,3 +1,19 @@
+class BestSolution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        int maxR[n+1];
+        maxR[n] = 0;
+        for(int i = n-1; i > -1; i--) maxR[i] = max(maxR[i+1], height[i]);
+        int maxL = 0, res = 0;
+        for(int i = 0; i < n; i++){
+            res += max(min(maxL, maxR[i+1]) - height[i], 0);
+            maxL = max(maxL, height[i]);
+        }
+        return res;
+    }
+};
+
 class Solution {
 public:
     int trap(vector<int>& height) {
