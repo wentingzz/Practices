@@ -1,3 +1,30 @@
+class BetterSolution {
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        int n = nums.size();
+        vector<pair<int, int>> sorted;
+        for(int i = 0; i < n; i++) sorted.push_back({nums[i], i});
+        sort(sorted.begin(), sorted.end());
+
+        vector<int> res(n, 0);
+        int i = 0;
+        while(i < n){
+            int j = i+1;
+            vector<int> idx = {sorted[i].second};
+            while(j < n and sorted[j].first - sorted[j-1].first <= limit){
+                idx.push_back(sorted[j].second);
+                j++;
+            }
+            sort(idx.begin(), idx.end());
+            for(int k = 0; k < idx.size(); k++, i++){
+                res[idx[k]] = sorted[i].first;
+            }
+            
+        }
+        return res;
+    }
+};
+
 class Solution {
 public:
     vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
