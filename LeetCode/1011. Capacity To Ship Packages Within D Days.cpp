@@ -1,4 +1,38 @@
-class SlowSolution {
+class BestSolution {
+public:
+    int numDays(vector<int>& weights, int cap){
+        int res = 1, sum = 0;
+        for(int& w: weights){
+            sum += w;
+            if(sum > cap){
+                res++;
+                sum = w;
+            }
+        }
+        return res;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int l = 1, h = 0;
+        for(int& w: weights){
+            l = max(w, l);
+            h += w;
+        }
+        l = max(l, h/days);
+        int m, res = h;
+        while(l <= h){
+            m = l + (h-l)/2;
+            int d = numDays(weights, m);
+            if(d > days) l = m + 1;
+            else{
+                res = min(res, m);
+                h = m - 1;
+            }
+        }
+        return res;
+    }
+};
+
+class SlowerSolution {
 public:
     int shipWithinDays(vector<int>& weights, int days) {
         int l = weights[0];
